@@ -15,7 +15,7 @@ void MinCircle()
 	{
 		for(int i = 1; i < k; i++)
 			for(int j = i+1; j < k; j++)
-				circle = min(circle, map[i][j] + cap[j][k] + cap[k][i]);
+				circle = min(circle, map[i][j] + cap[j][k]+cap[k][i]);
 		for(int i = 1; i <= n; i++)
 			for(int j = 1; j <= n; j++)
 				map[i][j] = min(map[i][j], map[i][k] + map[k][j]);
