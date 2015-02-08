@@ -1,11 +1,11 @@
 //x^y  % mod
-int mul(int x, LL y, int mod) // �ݹ� 
+int mul(int x, LL y, int mod) // 递归 
 {
 	if(y == 1) return x;
-	if(y & 1) return (mul((x * (LL)x) % mod, y / 2, mod) * (LL)x) % mod;
+	if(y & 1) return (mul((x * (LL)x) % mod, y / 2, mod) * (LL)x)%mod;
 	else return mul((x * (LL)x) % mod, y / 2, mod) % mod;
 }
-int mul(int x, int y, int mod) // �ǵݹ� 
+int mul(int x, int y, int mod) // 非递归 
 {
 	int s = 1;
 	int ss = x;
