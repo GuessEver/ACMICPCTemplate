@@ -2,7 +2,7 @@
 #include <cstring>
 // POJ 3461 : Count the number of t occurrences in s
 char s[1000000+10], t[1000000+10];
-int lens, lent, next[1000000+10];
+int next[1000000+10];
 
 void getNext(char *t, int len, int *Next)
 {
