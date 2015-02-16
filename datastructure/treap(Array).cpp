@@ -1,83 +1,77 @@
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
-// BZOJ 1503 郁闷的出纳员
+
+const int N = 100000 + 10;
+
 int m, Limit;
-struct Treap{
-	int fix, key, size;
-	Treap *left, *right;
-}*root;
-int leave;
+int L[N], R[N], S[N], fix[N], key[N];
+int root, total, leave;
 
-void rotate_left(Treap *&p)
+void rotate_left(int &p)
 {
-	Treap *tmp = p -> right;
-	p -> right = tmp -> left;
-	int zsize = tmp -> left ? tmp -> left -> size : 0;
-	p -> size = p -> size - tmp -> size + zsize;
-	tmp -> left = p;
-	tmp -> size = tmp -> size - zsize + p -> size;
+	int tmp = R[p];
+	R[p] = L[tmp];
+	int zsize = S[L[tmp]];
+	S[p] = S[p] - S[tmp] + zsize;
+	L[tmp] = p;
+	S[tmp] = S[tmp] - zsize + S[p];
 	p = tmp;
 }
-void rotate_right(Treap *&p)
+void rotate_right(int &p)
 {
-	Treap *tmp = p -> left;
-	p -> left = tmp -> right;
-	int zsize = tmp -> right ? tmp -> right -> size : 0;
-	p -> size = p -> size - tmp -> size + zsize;
-	tmp -> right = p;
-	tmp -> size = tmp -> size - zsize + p -> size;
+	int tmp = L[p];
+	L[p] = R[tmp];
+	int zsize = S[R[tmp]];
+	S[p] = S[p] - S[tmp] + zsize;
+	R[tmp] = p;
+	S[tmp] = S[tmp] - zsize + S[p];
 	p = tmp;
 }
 
-void insert(Treap *&p, int x)
+void insert(int &p, int x)
 {
 	if(!p)
 	{
-		p = new Treap;
-		p -> fix = rand();
-		p -> key = x;
-		p -> size = 1;
-		p -> left = 0;
-		p -> right = 0;
+		p = ++total;
+		L[p] = R[p] = 0;
+		S[p] = 1;
+		fix[p] = rand();
+		key[p] = x;
 		return;
 	}
-	if(x < p -> key)
+	S[p]++;
+	if(x < key[p])
 	{
-		insert(p -> left, x);
-		p -> size++;
-		if(p -> left -> fix > p -> fix) rotate_right(p);
+		insert(L[p], x);
+		if(fix[L[p]] > fix[p]) rotate_right(p);
 	}
 	else {
-		insert(p -> right, x);
-		p -> size++;
-		if(p -> right -> fix > p -> fix) rotate_left(p);
+		insert(R[p], x);
+		if(fix[R[p]] > fix[p]) rotate_left(p);
 	}
 }
 
-void remove(Treap *&p, int L)
+void remove(int &p, int limit)
 {
 	if(!p) return;
-	if(p -> key < L)
+	if(key[p] < limit)
 	{
-		leave += (p -> left ? p -> left -> size : 0) + 1;
-		p = p -> right;
-		remove(p, L);
+		leave += S[L[p]] + 1;
+		p = R[p];
+		remove(p, limit);
 	}
-	else {
-		remove(p -> left, L);
-		int lsize = p -> left ? p -> left -> size : 0;
-		int rsize = p -> right ? p -> right -> size : 0;
-		p -> size = lsize + rsize + 1;
+	else{
+		remove(L[p], limit);
+		S[p] = S[L[p]] + S[R[p]] + 1;
 	}
 }
 
-int kth(Treap *&p, int k)
+int kth(int &p, int k)
 {
-	int Lsize = p -> left ? p -> left -> size : 0;
-	if(k <= Lsize) return kth(p -> left, k);
-	else if(k == Lsize + 1) return p -> key;
-	else return kth(p -> right, k - Lsize - 1);
+	if(k <= S[L[p]]) return kth(L[p], k);
+	else if(k == S[L[p]] + 1) return key[p];
+	else return kth(R[p], k - S[L[p]] - 1);
 }
 
 int main()
@@ -101,8 +95,7 @@ int main()
 			remove(root, Limit - delta);
 		}
 		else {
-			int tot = root ? root -> size : 0;
-			x = tot - x + 1;
+			x = S[root] - x + 1;
 			if(x <= 0) puts("-1");
 			else printf("%d\n", kth(root, x) + delta);
 		}
@@ -110,4 +103,3 @@ int main()
 	printf("%d\n", leave);
 	return 0;
 }
-
