@@ -3,7 +3,7 @@
 int n, m, k;
 
 int solve(int totalPeople, int nextNumber, int startIndex)
-{
+{ // `startIndex` is based on 1_Index
 	int now = 0;
 	for(int i = 2; i < totalPeople; i++)
 		now = (now + nextNumber) % i;
