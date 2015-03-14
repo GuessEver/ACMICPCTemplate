@@ -1,19 +1,22 @@
 #include <cstdio>
+//UVALive 4727
+int n, m;
 
-int n, m, k;
-
-int solve(int totalPeople, int nextNumber, int startIndex)
-{ // `startIndex` is based on 1_Index
-	int now = 0;
-	for(int i = 2; i < totalPeople; i++)
+int Joseph(int totalPeople, int nextNumber, int startIndex, int lastIdx)
+{ // All based on 0_Index , the Answer is the last `lastIdx` to leave
+	int now = (nextNumber - 1) % lastIdx + (startIndex - nextNumber);
+	for(int i = lastIdx + 1; i <= totalPeople; i++)
 		now = (now + nextNumber) % i;
-	now = (now + startIndex) % n;
-	return now + 1; // 1_Index
+	return now;
 }
 
 int main()
 {
-	while(scanf("%d%d%d", &n, &k, &m) == 3 && (n || m || k))
-		printf("%d\n", solve(n, k, m));
+	int T; scanf("%d", &T);
+	while(T--)
+	{
+		scanf("%d%d", &n, &m);
+		printf("%d %d %d\n", Joseph(n, m, m, 3)+1, Joseph(n, m, m, 2)+1, Joseph(n, m, m, 1)+1);
+	}
 	return 0;
 }
