@@ -1,4 +1,4 @@
-all: pdf
+all: pdf done
 
 pdf: GuessEver.tex
 	xelatex GuessEver.tex

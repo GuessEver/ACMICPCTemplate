@@ -1,7 +1,8 @@
 void spfa()
 {
-	memset(dist, 0x3f, sizeof(dist));
-	Q.push(S);//S为源点
+	memset(inQ, 0, sizeof(inQ));
+	memset(dist, 0x3f, sizeof(dist)); dist[S] = 0;
+	Q.push(S); inQ[S] = 1; //S为源点
 	while(!Q.empty())
 	{
 		int x = Q.front();
