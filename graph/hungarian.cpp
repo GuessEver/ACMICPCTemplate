@@ -17,7 +17,7 @@ bool search(int x)
 	return 0;
 }
 
-int match()
+int maxMatch()
 {
 	int res = 0;
 	memset(pre, -1, sizeof(pre));
