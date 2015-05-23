@@ -1,11 +1,13 @@
-int ttt = 0; // 全局时间戳变量
+int timeStamp = 0;
+int n, m, g[N][N];
+int vis[N], pre[N];
 
 bool search(int x)
 {
 	for(int i = 1; i <= m; i++)
-		if(map[x][i] && vis[i] != ttt)
+		if(g[x][i] && vis[i] != timeStamp)
 		{
-			vis[i] = ttt;
+			vis[i] = timeStamp;
 			if(pre[i] == -1 || search(pre[i]))
 			{
 				pre[i] = x;
@@ -18,9 +20,10 @@ bool search(int x)
 int match()
 {
 	int res = 0;
+	memset(pre, -1, sizeof(pre));
 	for(int i = 1; i <= n; i++)
 	{
-		++ttt; // 这里不用memset节省时间
+		++timeStamp;
 		res += search(i);
 	}
 	return res;
