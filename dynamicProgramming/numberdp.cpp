@@ -1,23 +1,44 @@
-int predoing(LL a, int *num)
+#include <cstdio>
+#include <cstring>
+#include <algorithm>
+// calculate the number of numbers in [l, r] which not contain '4' or '62'
+long long l, r;
+int k;
+int L[100], R[100];
+long long f[100][2][2][10];
+
+int predo(long long a, int *num)
 {
-	int le = 0;
-	while(a)
-	{
-		num[++le] = a % 10;
-		a /= 10;
-	}
-	return le;
+	int len = 0;
+	do num[++len] = a % 10; while(a /= 10);
+	return len;
 }
-int calc(int pos, int d, int u, int last)
+
+long long calc(int pos, bool d, bool u, int pre)
 {
 	if(pos == 0) return 1;
-	int &res = f[pos][d][u][last];
+	long long &res = f[pos][d][u][pre];
 	if(res != -1) return res;
 	res = 0;
 	int st = d ? L[pos] : 0;
 	int ed = u ? R[pos] : 9;
 	for(int i = st; i <= ed; i++)
-		if(合法) res += calc(pos - 1, d && i == L[pos], u && i == R[pos], i);
+	{
+		if(i == 4 || (pre == 6 && i == 2)) continue;
+		res += calc(pos-1, d && i == L[pos], u && i == R[pos], i);
+	}
 	return res;
 }
 
+int main()
+{
+	while(scanf("%lld%lld", &l, &r) == 2 && (l || r))
+	{
+		memset(f, -1, sizeof(f));
+		memset(L, 0, sizeof(L));
+		memset(R, 0, sizeof(R));
+		int len = std::max(predo(l, L), predo(r, R));
+		printf("%lld\n", calc(len, 1, 1, 0));
+	}
+	return 0;
+}
