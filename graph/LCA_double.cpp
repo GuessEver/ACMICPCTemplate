@@ -11,7 +11,7 @@ struct Link{
 	Link *next;
 }*head[N];
 bool in[N];
-int ancient[N][17];
+int ancient[N][UPDeepth+1];
 int deep[N];
 
 void inLink(int x, int y)
