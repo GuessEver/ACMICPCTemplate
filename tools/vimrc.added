@@ -6,11 +6,11 @@ set st=4
 set ts=4
 set sw=4
 
-map <F7> <Esc>:w<CR>:!javac %:r.java && java %:r<CR>
-imap <F7> <Esc>:w<CR>:!javac %:r.java && java %:r<CR>
-map <F8> <Esc>:w<CR>:!g++ -g %:r.cpp -o %:r && gdb %:r<CR>
-imap <F8> <Esc>:w<CR>:!g++ -g %:r.cpp -o %:r && gdb %:r<CR>
-map <F9> <Esc>:w<CR>:!g++ -g %:r.cpp -o %:r && ./%:r<CR>
-imap <F9> <Esc>:w<CR>:!g++ -g %:r.cpp -o %:r && ./%:r<CR>
+map <F7> <Esc>:w<CR>:!javac %:r.java<CR>:!java %:r<CR>
+imap <F7> <Esc>:w<CR>:!javac %:r.java<CR>:!java %:r<CR>
+map <F8> <Esc>:w<CR>:!g++ -g %:r.cpp -o %:r<CR>:!gdb %:r<CR>
+imap <F8> <Esc>:w<CR>:!g++ -g %:r.cpp -o %:r<CR>:!gdb %:r<CR>
+map <F9> <Esc>:w<CR>:!g++ -g %:r.cpp -o %:r<CR>:!./%:r<CR>
+imap <F9> <Esc>:w<CR>:!g++ -g %:r.cpp -o %:r<CR>:!./%:r<CR>
 map <c-a> <Esc>gg"+yG
 imap <c-a> <Esc>gg"+yG
