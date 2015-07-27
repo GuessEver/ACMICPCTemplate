@@ -1,10 +1,10 @@
 Scanner cin = new Scanner(System.in);
 Scanner cin = new Scanner(new BufferedInputStream(System.in));
-//一定记住最后 cin.close();
+Scanner cin = new Scanner(new File("data.in"));
 
-//一般直接用 System.out.println();
 PrintWriter cout = new PrintWriter(System.out);
-PrintWriter cout = new PrintWriter(new BufferedOutputStream(System.out));//一定记住最后 cout.close();
+PrintWriter cout = new PrintWriter(new BufferedOutputStream(System.out));
+PrintWriter cout = new PrintWriter(new File("data.out"));
 
 int n = cin.nextInt();
 String s = cin.next();
