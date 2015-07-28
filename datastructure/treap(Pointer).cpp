@@ -1,110 +1,94 @@
-#include <cstdio>
-#include <cstdlib>
-#include <ctime>
+struct treap {
+	struct Treap{
+		int fix, key, size;
+		Treap *left, *right;
+	}*root, *null;
 
-int m, Limit;
-struct Treap{
-	int fix, key, size;
-	Treap *left, *right;
-}*root, *null;
-int leave;
-
-void rotate_left(Treap *&p)
-{
-	Treap *tmp = p -> right;
-	p -> right = tmp -> left;
-	int zsize = tmp -> left -> size;
-	p -> size = p -> size - tmp -> size + zsize;
-	tmp -> left = p;
-	tmp -> size = tmp -> size - zsize + p -> size;
-	p = tmp;
-}
-void rotate_right(Treap *&p)
-{
-	Treap *tmp = p -> left;
-	p -> left = tmp -> right;
-	int zsize = tmp -> right -> size;
-	p -> size = p -> size - tmp -> size + zsize;
-	tmp -> right = p;
-	tmp -> size = tmp -> size - zsize + p -> size;
-	p = tmp;
-}
-
-void insert(Treap *&p, int x)
-{
-	if(p == null)
+	void init()
 	{
-		p = new Treap;
-		p -> fix = rand();
-		p -> key = x;
-		p -> size = 1;
-		p -> left = null;
-		p -> right = null;
-		return;
+		null = new Treap;
+		root = null;
 	}
-	if(x < p -> key)
+	void rotate_left(Treap *&p)
 	{
-		insert(p -> left, x);
-		p -> size++;
-		if(p -> left -> fix > p -> fix) rotate_right(p);
+		Treap *tmp = p -> right;
+		p -> right = tmp -> left;
+		int zsize = tmp -> left -> size;
+		p -> size = p -> size - tmp -> size + zsize;
+		tmp -> left = p;
+		tmp -> size = tmp -> size - zsize + p -> size;
+		p = tmp;
 	}
-	else {
-		insert(p -> right, x);
-		p -> size++;
-		if(p -> right -> fix > p -> fix) rotate_left(p);
-	}
-}
-
-void remove(Treap *&p, int L)
-{
-	if(p == null) return;
-	if(p -> key < L)
+	void rotate_right(Treap *&p)
 	{
-		leave += p -> left -> size + 1;
-		p = p -> right;
-		remove(p, L);
+		Treap *tmp = p -> left;
+		p -> left = tmp -> right;
+		int zsize = tmp -> right -> size;
+		p -> size = p -> size - tmp -> size + zsize;
+		tmp -> right = p;
+		tmp -> size = tmp -> size - zsize + p -> size;
+		p = tmp;
 	}
-	else {
-		remove(p -> left, L);
-		p -> size = p -> left -> size + p -> right -> size + 1;
-	}
-}
 
-int kth(Treap *&p, int k)
-{
-	int Lsize = p -> left -> size;
-	if(k <= Lsize) return kth(p -> left, k);
-	else if(k == Lsize + 1) return p -> key;
-	else return kth(p -> right, k - Lsize - 1);
-}
-
-int main()
-{
-	srand(time(0));
-	null = new Treap; root = null;
-	scanf("%d%d", &m, &Limit);
-	int delta = 0;
-	while(m--)
+	void Insert(Treap *&p, int x)
 	{
-		char op; int x;
-		scanf(" %c%d", &op, &x);
-		if(op == 'I')
+		if(p == null)
 		{
-			if(x < Limit) continue;
-			insert(root, x - delta);
+			p = new Treap;
+			p -> fix = rand();
+			p -> key = x;
+			p -> size = 1;
+			p -> left = null;
+			p -> right = null;
+			return;
 		}
-		else if(op == 'A') delta += x;
-		else if(op == 'S')
+		if(x < p -> key)
 		{
-			delta -= x;
-			remove(root, Limit - delta);
+			Insert(p -> left, x);
+			p -> size++;
+			if(p -> left -> fix > p -> fix) rotate_right(p);
 		}
 		else {
-			x = root -> size - x + 1;
-			if(x <= 0) puts("-1");
-			else printf("%d\n", kth(root, x) + delta);
+			Insert(p -> right, x);
+			p -> size++;
+			if(p -> right -> fix > p -> fix) rotate_left(p);
 		}
 	}
-	printf("%d\n", leave);
-	return 0;
-}
+	int Delete_min(Treap *&p)
+	{
+		p -> size--;
+		if(p -> left == null)
+		{
+			int value = p -> key;
+			p = p -> right;
+			return value;
+		}
+		else return Delete_min(p -> left);
+	}
+	void Delete(Treap *&p, int x)
+	{
+		if(p == null) return;
+		p -> size--;
+		if(x < p -> key) Delete(p -> left, x);
+		else if(x > p -> key) Delete(p -> right, x);
+		else { // delete *p
+			if(p -> left == null && p -> right == null)
+			{
+				p = null;
+			}
+			else if(p -> left == null || p -> right == null)
+			{
+				if(p -> left == null)
+				{
+					p = p -> right;
+				}
+				else { // p -> right == null
+					p = p -> left;
+				}
+			}
+			else { // p -> left != null && p -> right != null
+				p -> key = Delete_min(p -> right);
+			}
+		}
+	}
+};
