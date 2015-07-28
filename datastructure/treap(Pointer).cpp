@@ -65,7 +65,7 @@ struct treap {
 		}
 		else return Delete_min(p -> left);
 	}
-	void Delete(Treap *&p, int x)
+	void Delete(Treap *&p, int x) // Make sure that `x` is existed
 	{
 		if(p == null) return;
 		p -> size--;
