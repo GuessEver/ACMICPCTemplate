@@ -87,16 +87,4 @@ struct SBT {
 			else A[p] = Delete_min(R[p]);
 		}
 	}
-	int Query_less(int &p, int x)
-	{
-		if(!p) return 0;
-		if(A[p] <= x) return S[L[p]] + 1 + Query_less(R[p], x);
-		else return Query_less(L[p], x);
-	}
-	int Query_greater(int &p, int x)
-	{
-		if(!p) return 0;
-		if(A[p] >= x) return S[R[p]] + 1 + Query_greater(L[p], x);
-		else return Query_greater(R[p], x);
-	}
 };
