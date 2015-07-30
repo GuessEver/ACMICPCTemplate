@@ -1,4 +1,4 @@
 # Template
 ACM ICPC Template
-[My Blog](http://guessever.tk/blog)
-[GuessBUG](http://guessbug.tk)
+[My Blog](http://guessever.me/blog)
+[GuessBUG](http://guessbug.com)
