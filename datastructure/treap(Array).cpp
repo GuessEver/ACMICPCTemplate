@@ -1,4 +1,5 @@
 struct treap {
+	const int N = 100000 + 10;
 	int L[N*20], R[N*20], S[N*20], fix[N*20], key[N*20];
 	int root, total;
 	void rotate_left(int &p)

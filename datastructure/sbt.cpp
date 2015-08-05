@@ -1,4 +1,5 @@
 struct SBT {
+	const int N = 100000 + 10;
 	int A[N*20], S[N*20], L[N*20], R[N*20];
 	int root, total;
 	void rotate_left(int &x)
