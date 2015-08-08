@@ -1,6 +1,6 @@
 struct treap {
 	const int N = 100000 + 10;
-	int L[N*20], R[N*20], S[N*20], fix[N*20], key[N*20];
+	int L[N*20], R[N*20], S[N*20], fix[N*20], A[N*20];
 	int root, total;
 	void rotate_left(int &p)
 	{
@@ -30,11 +30,11 @@ struct treap {
 			L[p] = R[p] = 0;
 			S[p] = 1;
 			fix[p] = rand();
-			key[p] = x;
+			A[p] = x;
 			return;
 		}
 		S[p]++;
-		if(x < key[p])
+		if(x < A[p])
 		{
 			Insert(L[p], x);
 			if(fix[L[p]] > fix[p]) rotate_right(p);
@@ -49,7 +49,7 @@ struct treap {
 		S[p]--;
 		if(!L[p])
 		{
-			int value = key[p];
+			int value = A[p];
 			p = R[p];
 			return value;
 		}
@@ -59,8 +59,8 @@ struct treap {
 	{
 		if(!p) return;
 		S[p]--;
-		if(x < key[p]) Delete(L[p], x);
-		else if(x > key[p]) Delete(R[p], x);
+		if(x < A[p]) Delete(L[p], x);
+		else if(x > A[p]) Delete(R[p], x);
 		else {
 			if(!L[p] && !R[p]) p = 0;
 			else if(!L[p] || !R[p])
@@ -68,7 +68,25 @@ struct treap {
 				if(!L[p]) p = R[p];
 				else p = L[p];
 			}
-			else key[p] = Delete_min(R[p]);
+			else A[p] = Delete_min(R[p]);
 		}
+	}
+	int Count_leq(int &p, int x)
+	{
+		if(!p) return 0;
+		if(A[p] <= x) return S[L[p]] + 1 + Count_leq(R[p], x);
+		else return Count_leq(L[p], x);
+	}
+	int Count_geq(int &p, int x)
+	{
+		if(!p) return 0;
+		if(A[p] >= x) return S[R[p]] + 1 + Count_geq(L[p], x);
+		else return Count_geq(R[p], x);
+	}
+	int Find_kth(int &p, int k)
+	{
+		if(k == S[L[p]] + 1) return A[p];
+		if(k <= S[L[p]]) return Find_kth(L[p], k);
+		else return Find_kth(R[p], k - S[L[p]] - 1);
 	}
 };

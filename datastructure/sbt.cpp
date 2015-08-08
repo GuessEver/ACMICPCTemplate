@@ -88,4 +88,22 @@ struct SBT {
 			else A[p] = Delete_min(R[p]);
 		}
 	}
+	int Count_leq(int &p, int x)
+	{
+		if(!p) return 0;
+		if(A[p] <= x) return S[L[p]] + 1 + Count_leq(R[p], x);
+		else return Count_leq(L[p], x);
+	}
+	int Count_geq(int &p, int x)
+	{
+		if(!p) return 0;
+		if(A[p] >= x) return S[R[p]] + 1 + Count_geq(L[p], x);
+		else return Count_geq(R[p], x);
+	}
+	int Find_kth(int &p, int k)
+	{
+		if(k == S[L[p]] + 1) return A[p];
+		if(k <= S[L[p]]) return Find_kth(L[p], k);
+		else return Find_kth(R[p], k - S[L[p]] - 1);
+	}
 };

@@ -2,6 +2,7 @@ struct treap {
 	struct Treap{
 		int fix, key, size;
 		Treap *left, *right;
+		Treap() { fix = key = size = left = right = 0; }
 	}*root, *null;
 
 	void init()
@@ -90,5 +91,23 @@ struct treap {
 				p -> key = Delete_min(p -> right);
 			}
 		}
+	}
+	int Count_leq(Treap *&p, int x)
+	{
+		if(p == null) return 0;
+		if(p -> key <= x) return p -> left -> size + 1 + Count_leq(p -> right, x);
+		else return Count_leq(p -> left, x);
+	}
+	int Count_geq(Treap *&p, int x)
+	{
+		if(p == null) return 0;
+		if(p -> key >= x) return p -> right -> size + 1 + Count_geq(p -> left, x);
+		else return Count_geq(p -> right, x);
+	}
+	int Find_kth(Treap *&p, int x)
+	{
+		if(k == p -> left -> size + 1) return p -> key;
+		if(k <= p -> left -> size) return Find_kth(p -> left, k);
+		else return Find_kth(p -> right, k - p -> left -> size - 1);
 	}
 };
