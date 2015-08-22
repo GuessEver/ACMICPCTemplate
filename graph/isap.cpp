@@ -9,7 +9,7 @@ int S, T;
 
 int sap(int x, int flow)
 {
-	if(x == n) return flow;
+	if(x == T) return flow;
 	int res = 0;
 	for(int i = S; i <= T; i++)
 		if(g[x][i] && h[x] == h[i] + 1)
@@ -34,7 +34,7 @@ int main()
 		scanf("%d%d%d", &x, &y, &z);
 		g[x][y] += z;
 	}
-	v[0] = T; S = 1; T = n;
+	v[0] = T; S = 1; T = n; // all idx started from `1`
 	int maxflow = 0;
 	while(h[S] < T) maxflow += sap(1, 0x3f3f3f3f);
 	printf("%d\n", maxflow);
