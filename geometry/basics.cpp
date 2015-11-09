@@ -25,6 +25,10 @@ struct Point {
 	Point() {}
 	Point(const double &_x, const double &_y) { x = _x; y = _y; }
 	void Read() { scanf("%lf%lf", &x, &y); }
+	bool operator < (const Point &b) const {
+		if(dcmp(x, b.x) == 0) return dcmp(y, b.y) < 0;
+		return dcmp(x, b.x) < 0;
+	}
 	Point operator + (const Point &b) const {
 		return Point(x + b.x, y + b.y);
 	}
