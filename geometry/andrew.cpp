@@ -33,6 +33,7 @@ struct Point {
 // 两个 < 改成 <= 可以让凸包边上含有点
 int Andrew(Point *p, int n, Point *ch) {
 	std::sort(p, p + n);
+	// n = std::unique(p, p + n) - p;
 	int m = 0;
 	for(int i = 0; i < n; i++) {
 		while(m > 1 && sign((ch[m-1]-ch[m-2]) ^ (p[i]-ch[m-2])) < 0) m--;

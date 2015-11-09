@@ -90,10 +90,10 @@ const int getRelationBetweenLines(const Line &L1, const Line &L2) {
 }
 // 直线交点
 const Point getLineIntersection(const Line &L1, const Line &L2) {
-	Vector v = L1.e - L1.s, w = L2.e - L2.s;
+	Vector L1v = L1.e - L1.s, L2v = L2.e - L2.s;
 	Vector u = L1.s - L2.s;
-	double t = (w ^ u) / (v ^ w);
-	return L1.s + v * t;
+	double t = (L2v ^ u) / (L1v ^ L2v);
+	return L1.s + L1v * t;
 }
 // 点到直线的距离
 const double getDistanceFromPointToLine(const Point &P, const Line &L) {
