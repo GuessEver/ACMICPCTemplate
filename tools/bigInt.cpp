@@ -104,7 +104,7 @@ struct BigInt{
 			std::swap(a, c);
 			a.sign = 1;
 		}
-		for(int i = 1; i <= len; i++)
+		for(int i = 1; i <= a.len; i++)
 		{
 			a.c[i] -= c.c[i];
 			if(a.c[i] < 0)
